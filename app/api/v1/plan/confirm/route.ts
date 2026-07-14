@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { materializeTaskInstances } from '@/lib/scheduling/task-instances';
 import { todayUtc } from '@/lib/timezone';
 import { createClient } from '@/lib/supabase/server';
-import type { ApiResponse, PlanGenerateResponse } from '@/types';
+import type { ApiResponse, GoalCategory, PlanGenerateResponse } from '@/types';
 
 const WEEKS_PER_GOAL = 8;
 
@@ -62,14 +62,17 @@ export async function POST(request: Request) {
     );
     const uniqueGoalIds = [...new Set(goalRules.map(r => r.goal_id!))];
 
-    const goalMeta = new Map<string, { category: string; title: string }>();
+    const goalMeta = new Map<
+        string,
+        { category: GoalCategory; title: string }
+    >();
     let roadmapOffset = 0;
     for (const tempGoalId of uniqueGoalIds) {
         const block = preview.preview_blocks.find(
             b => b.goal_id === tempGoalId
         );
         if (!block || goalIdMap.has(tempGoalId)) continue;
-        const category =
+        const category: GoalCategory =
             block.goal_title.toLowerCase().includes('muscle') ||
             block.goal_title.toLowerCase().includes('marathon')
                 ? 'fitness'
@@ -140,7 +143,7 @@ export async function POST(request: Request) {
         rotation_index_field: string | null;
         is_fixed_commitment: boolean;
         active: boolean;
-        category_type?: string;
+        category_type?: GoalCategory;
         goal_title?: string;
     }> = [];
 
