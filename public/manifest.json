@@ -1,0 +1,16 @@
+{
+    "name": "Momentum",
+    "short_name": "Momentum",
+    "description": "AI personal operating system",
+    "start_url": "/today",
+    "display": "standalone",
+    "background_color": "#FAFAFC",
+    "theme_color": "#5B5BF0",
+    "icons": [
+        {
+            "src": "/icons/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
